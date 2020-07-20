@@ -136,11 +136,11 @@ super + {Left,Down,Up,Right}
 
 # volume up
 XF86AudioRaiseVolume
-	pulsemixer --change-volume +8 && ~/.scripts/volume-noti.sh
+	pulsemixer --change-volume +8
 
 # volume down
 XF86AudioLowerVolume
-	pulsemixer --change-volume -8 && ~/.scripts/volume-noti.sh
+	pulsemixer --change-volume -8
 
 # mute sound
 XF86AudioMute
@@ -156,7 +156,7 @@ XF86AudioMicMute
 
 # brightness up
 XF86MonBrightnessUp
-	xbacklight -inc 16 && ~/.scripts/bright-noti.sh
+	xbacklight -inc 16
 
 XF86MonBrightnessDown
-	xbacklight -dec 16 && ~/.scripts/bright-noti.sh
+	xbacklight -dec 16

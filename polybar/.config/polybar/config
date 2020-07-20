@@ -48,10 +48,11 @@ alert = ${xrdb:color3:#222}
 [bar/mybar]
 ;monitor = ${env:MONITOR:HDMI-1}
 ;width = 1366
-width = 98.7%
+;width = 98.7%
+width = 99.4%
 height = 40
-offset-x = 16
-offset-y = 16
+offset-x = 8
+offset-y = 8
 radius = 0.0
 fixed-center = true
 
@@ -62,11 +63,10 @@ line-size = 8
 ;line-color = #f00
 
 border-left-size = 0
-border-top-size = 4
+border-top-size = 8
 border-right-size = 0
 border-bottom-size = 0
 border-color = ${colors.background}
-
 
 padding-right = 0
 padding-left = 0
@@ -84,7 +84,7 @@ font-0 = Dejavu Sans Mono:size=14;0
 
 modules-left = bspwm
 modules-center = date
-modules-right = eth eth2 wlan pulseaudio battery
+modules-right = eth eth2 wlan pulseaudio battery 
 ;modules-right = eth memory cpu temperature battery xbacklight volume date 
 ;modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
 
@@ -246,7 +246,7 @@ label-padding = 2
 
 [module/wlan]
 type = internal/network
-interface = wlp4s0 
+interface = wlan0 
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
