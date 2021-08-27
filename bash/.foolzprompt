@@ -1,0 +1,111 @@
+##############################
+#                            #
+# .foolzprompt               #	
+# customized bash PS1 prompt #
+#                            #
+##############################
+
+# function to detect the git branch of the current directory
+parse_git_branch() {
+
+    # detect if running on linux or macos
+	case "$OSTYPE" in
+	linux*)
+		# git commands for linux
+		BRANCH=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/');;
+	darwin*)
+		# git commands for macOS
+		BRANCH="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+			git describe --all --exact-match HEAD 2> /dev/null || \
+			git rev-parse --short HEAD 2> /dev/null || \
+			echo '')";;
+	esac
+
+    if [[ -n $BRANCH ]]
+    then
+        # single space added after branch name
+        echo "$BRANCH "
+    else
+        echo ""
+    fi
+
+}
+
+# function to return a "branch" symbol if there is a active branch in the directory
+git_branch_icon() {
+
+    if [[ -n $(parse_git_branch) ]]
+    then
+        # two spaces added after symbol
+        echo "⎇  "
+    else
+        echo ""
+    fi
+
+}
+
+# main function to create the custom PS1 prompt
+function foolzprompt {
+
+    # setting colors/text styles via tput commands
+    BLACK_FG="\[$(tput setaf 0)\]"
+    RED_FG="\[$(tput setaf 1)\]"
+    GREEN_FG="\[$(tput setaf 2)\]"
+    YELLOW_FG="\[$(tput setaf 3)\]"
+    BLUE_FG="\[$(tput setaf 4)\]"
+    PINK_FG="\[$(tput setaf 5)\]"
+    CYAN_FG="\[$(tput setaf 6)\]"
+    WHITE_FG="\[$(tput setaf 7)\]"
+    BOLD="\[$(tput bold)\]"
+    END="\[$(tput sgr0)\]"
+	
+
+    # components to add to the prompt
+
+    # just a space character to make them more obvious
+    SPACE=" "
+    
+    # username using \u
+    USERNAME="${BOLD}${BLUE_FG}\u${END}"
+
+    # hostname using \h
+    HOSTNAME="${BOLD}${CYAN_FG}\h${END}"
+
+    # directory using \w
+    DIRECTORY="${BOLD}${PINK_FG}\w${SPACE}${END}"
+
+    # short directory using \W
+    SHORT_DIRECTORY="${BOLD}${CYAN_FG}\W${SPACE}${END}"
+
+    # git branch name using the parse_git_branch function
+    GIT_BRANCH="${BOLD}${WHITE_FG}\$(parse_git_branch)${END}"
+
+    # a branch "icon" using the parse_git_branch function
+    BRANCH_ICON="${BOLD}${PINK_FG}\$(git_branch_icon)${END}"
+
+    # ⟶
+    ARROW="${BOLD}${GREEN_FG}⟶${SPACE}${END}"
+
+    # 烏
+    KARASU="${BOLD}${BLUE_FG}烏${SPACE}${END}"
+
+    # just a [ no escape needed
+    LEFT_SQUARE="${BOLD}${WHITE_FG}[${END}"
+
+    # just a ] no escape needed
+    RIGHT_SQUARE="${BOLD}${WHITE_FG}]${SPACE}${END}"
+
+    # just an @ no escape needed
+    AT_SIGN="${BOLD}${GREEN_FG}@${END}"
+
+    # $ needs the escape character
+    DOLLAR="${BOLD}${GREEN_FG}\$${SPACE}${END}"
+
+    # export the PS1 prompt will all the variables chained together
+    # export PS1="${LEFT_SQUARE}${USERNAME}${AT_SIGN}${HOSTNAME}${RIGHT_SQUARE}${ARROW}${DIRECTORY}${BRANCH_ICON}${GIT_BRANCH}${DOLLAR}"
+    export PS1="${KARASU}${SHORT_DIRECTORY}${BRANCH_ICON}${GIT_BRANCH}${DOLLAR}"
+
+}
+
+# invoke the function to set the PS1 prompt
+foolzprompt
